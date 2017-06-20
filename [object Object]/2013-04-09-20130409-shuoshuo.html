@@ -1,0 +1,788 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="碎言碎语 心情," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="23:25 #just do it#做了个遍历算法计算排名东东【微博价值排行】，用php实现了一下，感觉不爽，怪怪的【全能数组泛滥了】，于是用python实现了一下，感觉良好，然后，用golang实现了下，发现一切非常良好，然后，用C实现一个吧，然后就被坑死了，写到吐血，想想，尼玛，用c++stl-vector多方便，于是用c++实现之…彻底无语了…果然是弱爆了.. 用c实现，太能考验人了，之前那">
+<meta name="keywords" content="碎言碎语 心情">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2013-4-09 说说">
+<meta property="og:url" content="http://i.joymvp.com/[object Object]/2013-04-09-20130409-shuoshuo.html">
+<meta property="og:site_name" content="lie的个人博客">
+<meta property="og:description" content="23:25 #just do it#做了个遍历算法计算排名东东【微博价值排行】，用php实现了一下，感觉不爽，怪怪的【全能数组泛滥了】，于是用python实现了一下，感觉良好，然后，用golang实现了下，发现一切非常良好，然后，用C实现一个吧，然后就被坑死了，写到吐血，想想，尼玛，用c++stl-vector多方便，于是用c++实现之…彻底无语了…果然是弱爆了.. 用c实现，太能考验人了，之前那">
+<meta property="og:updated_time" content="2017-06-20T04:16:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2013-4-09 说说">
+<meta name="twitter:description" content="23:25 #just do it#做了个遍历算法计算排名东东【微博价值排行】，用php实现了一下，感觉不爽，怪怪的【全能数组泛滥了】，于是用python实现了一下，感觉良好，然后，用golang实现了下，发现一切非常良好，然后，用C实现一个吧，然后就被坑死了，写到吐血，想想，尼玛，用c++stl-vector多方便，于是用c++实现之…彻底无语了…果然是弱爆了.. 用c实现，太能考验人了，之前那">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://i.joymvp.com/[object Object]/2013-04-09-20130409-shuoshuo.html"/>
+
+
+
+
+
+  <title>2013-4-09 说说 | lie的个人博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lie的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">匆匆行走，总要留下什么</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2013-04-09-20130409-shuoshuo.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lie的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">2013-4-09 说说</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/碎言碎语/" itemprop="url" rel="index">
+                    <span itemprop="name">碎言碎语</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/[object Object]/2013-04-09-20130409-shuoshuo.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/[object Object]/2013-04-09-20130409-shuoshuo.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="23-25"><a href="#23-25" class="headerlink" title="23:25"></a>23:25</h2><p> #just do it#做了个遍历算法计算排名东东【微博价值排行】，用php实现了一下，感觉不爽，怪怪的【全能数组泛滥了】，于是用python实现了一下，感觉良好，然后，用golang实现了下，发现一切非常良好，然后，用C实现一个吧，然后就被坑死了，写到吐血，想想，尼玛，用c++stl-vector多方便，于是用c++实现之…彻底无语了…果然是弱爆了.. 用c实现，太能考验人了，之前那些算法啊，数据结构啊，统统都要找出来，然后，算了，自己实现吧！学个数据结构与算法，最能派上用场的竟然是C.[哭][哭][哭][哭][哭]</p>
+<p>2013-04-09 23:25:56</p>
+<h2 id="23-02"><a href="#23-02" class="headerlink" title="23:02"></a>23:02</h2><p> #just do it#尼玛，从早上到刚刚，一直踏着编辑器空格的坑，那个indent错误，不知道报了多少遍，从sublime text2 到textmate 到 gedit 愣是没一个检查出来，最后，只好用idle打开!windows坑我就算了，反正蹲在坑里久了，习惯了，textmate也坑我，靠 </p>
+<p>2013-04-09 23:02:51</p>
+<h2 id="20-14"><a href="#20-14" class="headerlink" title="20:14"></a>20:14</h2><p> 既然在php要涨薪这么难，我考虑转python得了</p>
+<p>2013-04-09 20:14:29 iPhone 5</p>
+<h2 id="09-06"><a href="#09-06" class="headerlink" title="09:06"></a>09:06</h2><p> #碎言碎语#接下来要买个电视，看新闻联播了；并加长#网易新闻客户端#的时间，继续加强 #一目了然#的能力 </p>
+<p>2013-04-09 09:06:51</p>
+<h2 id="08-55"><a href="#08-55" class="headerlink" title="08:55"></a>08:55</h2><p> #碎言碎语##可以解忧唯有杜康#，见识了，一句话带出的一部古装小说，期待电视剧版 </p>
+<p>2013-04-09 08:55:47</p>
+<h2 id="08-37"><a href="#08-37" class="headerlink" title="08:37"></a>08:37</h2><p> #碎言碎语#微博不敢上了，一群人在面红耳刺的争论着各种优劣是非，已经形成3大阵营了，偶这种属于第三大阵营：旁观！关注的人都很XX，跨语言多了，就有吵架的资本了，哈哈  </p>
+<p> 上次一个前端界跨入golang界说golang的因果是非因；这次一个c++界进入javascript界，谈论javascript的因果是非因。哈哈。都是从事IT10年以上的，偶这种3年小兵，只能观战了</p>
+<p>2013-04-09 08:37:58</p>
+<h2 id="08-34"><a href="#08-34" class="headerlink" title="08:34"></a>08:34</h2><p> 赞  </p>
+<pre><code>@羽: 充实的生活 每一个时间片都有价值  
+2013-04-09 08:33:41 
+</code></pre><p>2013-04-09 08:34:30</p>
+<h2 id="08-16"><a href="#08-16" class="headerlink" title="08:16"></a>08:16</h2><p> #碎言碎语#这周末回福州玩玩，求周六和可能的周日下榻之地 </p>
+<p>2013-04-09 08:16:50</p>
+<h2 id="08-08"><a href="#08-08" class="headerlink" title="08:08"></a>08:08</h2><p> #碎言碎语#让网站出现故障是网站工作人员最大的耻辱 </p>
+<p>2013-04-09 08:08:33</p>
+<h2 id="07-37"><a href="#07-37" class="headerlink" title="07:37"></a>07:37</h2><p> 土壤的味道，海风的感觉</p>
+<p>2013-04-09 07:37:58 iPhone 5</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/碎言碎语-心情/" rel="tag"># 碎言碎语 心情</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/[object Object]/2013-04-10-20130410-shuoshuo.html" rel="next" title="2013-4-10 说说">
+                <i class="fa fa-chevron-left"></i> 2013-4-10 说说
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/[object Object]/2013-04-08-20130408-shuoshuo.html" rel="prev" title="2013-4-08 说说">
+                2013-4-08 说说 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lie" />
+          <p class="site-author-name" itemprop="name">lie</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#23-25"><span class="nav-number">1.</span> <span class="nav-text">23:25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-02"><span class="nav-number">2.</span> <span class="nav-text">23:02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-14"><span class="nav-number">3.</span> <span class="nav-text">20:14</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#09-06"><span class="nav-number">4.</span> <span class="nav-text">09:06</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-55"><span class="nav-number">5.</span> <span class="nav-text">08:55</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-37"><span class="nav-number">6.</span> <span class="nav-text">08:37</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-34"><span class="nav-number">7.</span> <span class="nav-text">08:34</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-16"><span class="nav-number">8.</span> <span class="nav-text">08:16</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-08"><span class="nav-number">9.</span> <span class="nav-text">08:08</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#07-37"><span class="nav-number">10.</span> <span class="nav-text">07:37</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lie</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://timer.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://i.joymvp.com/[object Object]/2013-04-09-20130409-shuoshuo.html';
+          this.page.identifier = '/[object Object]/2013-04-09-20130409-shuoshuo.html';
+          this.page.title = '2013-4-09 说说';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timer.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

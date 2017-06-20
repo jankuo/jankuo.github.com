@@ -1,0 +1,790 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="lsof," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="lsof 帮助文档 lsof --help12345678910111213141516171819202122232425262728[-?abhlnNoOPRtUvV] [+|-c c] [+|-d s] [+D D] [+|-f[cgG]] [-F [f]] [-g [s]] [-i [i]] [+|-L [l]] [+|-M] [-o [o]] [-p s][+|-r [t]] [-s [">
+<meta name="keywords" content="lsof">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lsof一些用法">
+<meta property="og:url" content="http://i.joymvp.com/[object Object]/2014-05-01-about-lsof.html">
+<meta property="og:site_name" content="lie的个人博客">
+<meta property="og:description" content="lsof 帮助文档 lsof --help12345678910111213141516171819202122232425262728[-?abhlnNoOPRtUvV] [+|-c c] [+|-d s] [+D D] [+|-f[cgG]] [-F [f]] [-g [s]] [-i [i]] [+|-L [l]] [+|-M] [-o [o]] [-p s][+|-r [t]] [-s [">
+<meta property="og:updated_time" content="2017-06-20T04:16:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lsof一些用法">
+<meta name="twitter:description" content="lsof 帮助文档 lsof --help12345678910111213141516171819202122232425262728[-?abhlnNoOPRtUvV] [+|-c c] [+|-d s] [+D D] [+|-f[cgG]] [-F [f]] [-g [s]] [-i [i]] [+|-L [l]] [+|-M] [-o [o]] [-p s][+|-r [t]] [-s [">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://i.joymvp.com/[object Object]/2014-05-01-about-lsof.html"/>
+
+
+
+
+
+  <title>lsof一些用法 | lie的个人博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lie的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">匆匆行走，总要留下什么</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2014-05-01-about-lsof.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lie的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">lsof一些用法</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/[object Object]/2014-05-01-about-lsof.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/[object Object]/2014-05-01-about-lsof.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="lsof-帮助文档-lsof-help"><a href="#lsof-帮助文档-lsof-help" class="headerlink" title="lsof 帮助文档 lsof --help"></a>lsof 帮助文档 <code>lsof --help</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">[-?abhlnNoOPRtUvV] [+|-c c] [+|-d s] [+D D] [+|-f[cgG]]</div><div class="line"> [-F [f]] [-g [s]] [-i [i]] [+|-L [l]] [+|-M] [-o [o]] [-p s]</div><div class="line">[+|-r [t]] [-s [p:s]] [-S [t]] [-T [t]] [-u s] [+|-w] [-x [fl]] [--] [names]</div><div class="line">Defaults in parentheses; comma-separated set (s) items; dash-separated ranges.</div><div class="line">  -?|-h list help          -a AND selections (OR)     -b avoid kernel blocks</div><div class="line">  -c c  cmd c ^c /c/[bix]  +c w  COMMAND width (9)    +d s  dir s files</div><div class="line">  -d s  select by FD set   +D D  dir D tree *SLOW?*   -i select IPv[46] files</div><div class="line">  -l list UID numbers      -n no host names           -N select NFS files</div><div class="line">  -o list file offset      -O no overhead *RISKY*     -P no port names</div><div class="line">  -R list paRent PID       -s list file size          -t terse listing</div><div class="line">  -T disable TCP/TPI info  -U select Unix socket      -v list version info</div><div class="line">  -V verbose search        +|-w  Warnings (+)         -- end option scan</div><div class="line">  +f|-f  +filesystem or -file names     +|-f[cgG] Ct flaGs</div><div class="line">  -F [f] select fields; -F? for help  </div><div class="line">  +|-L [l] list (+) suppress (-) link counts &lt; l (0 = all; default = 0)</div><div class="line">  +|-M   portMap registration (-)       -o o   o 0t offset digits (8)</div><div class="line">  -p s   exclude(^)|select PIDs         -S [t] t second stat timeout (15)</div><div class="line">  -T fqs TCP/TPI Fl,Q,St (s) info</div><div class="line">  -g [s] exclude(^)|select and print process group IDs</div><div class="line">  -i i   select by IPv[46] address: [46][proto][@host|addr][:svc_list|port_list]</div><div class="line">  +|-r [t[m&lt;fmt&gt;]] repeat every t seconds (15);  + until no files, - forever.</div><div class="line">       An optional suffix to t is m&lt;fmt&gt;; m must separate t from &lt;fmt&gt; and</div><div class="line">      &lt;fmt&gt; is an strftime(3) format for the marker line.</div><div class="line">  -s p:s  exclude(^)|select protocol (p = TCP|UDP) states by name(s).</div><div class="line">  -u s   exclude(^)|select login|UID set s</div><div class="line">  -x [fl] cross over +d|+D File systems or symbolic Links</div><div class="line">  names  select named files or files on named file systems</div><div class="line">Anyone can list all files; /dev warnings disabled; kernel ID check disabled.</div></pre></td></tr></table></figure>
+<h2 id="列出所有打开的文件和网络lsof"><a href="#列出所有打开的文件和网络lsof" class="headerlink" title="列出所有打开的文件和网络lsof"></a>列出所有打开的文件和网络<code>lsof</code></h2><pre><code>&gt;lsof
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</div><div class="line">UserEvent 141      sense   20r   DIR    1,2      816 2120 /private/var</div><div class="line">UserEvent 141      sense   25r   DIR    1,2      816 2120 /private/var</div><div class="line">UserEvent 141      sense   48r   DIR    1,2      816 2120 /private/var</div></pre></td></tr></table></figure>
+<h2 id="列出某个用户打开的文件-lsof-u-username"><a href="#列出某个用户打开的文件-lsof-u-username" class="headerlink" title="列出某个用户打开的文件 lsof -u [username]"></a>列出某个用户打开的文件 <code>lsof -u [username]</code></h2><pre><code>&gt;lsof -u sense
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</div><div class="line">lsof      19789     sense  cwd      DIR                1,2       3536 13227011 /Users/sense/Developer/github/blog/_posts</div><div class="line">lsof      19789     sense  txt      REG                1,2     109248    11809 /usr/sbin/lsof</div><div class="line">lsof      19789     sense  txt      REG                1,2     600832  4153010 /usr/lib/dyld</div><div class="line">lsof      19789     sense  txt      REG                1,2  343645146 12741449 /private/var/db/dyld/dyld_shared_cache_x86_64</div><div class="line">lsof      19789     sense    0u     CHR               16,0   0t447034      851 /dev/ttys000</div><div class="line">lsof      19789     sense    1u     CHR               16,0   0t447034      851 /dev/ttys000</div><div class="line">lsof      19789     sense    2u     CHR               16,0   0t447034      851 /dev/ttys000</div><div class="line">lsof      19789     sense    4     PIPE 0x6bbd73588ce7bfb7      16384          -&gt;0x6bbd735884f094e7</div><div class="line">lsof      19789     sense    5     PIPE 0x6bbd73588ce7d9d7      16384          -&gt;0x6bbd735884f0ab97</div></pre></td></tr></table></figure>
+<h2 id="列出某个端口运行的进程-lsof-i-port-number"><a href="#列出某个端口运行的进程-lsof-i-port-number" class="headerlink" title="列出某个端口运行的进程 lsof -i :[port_number]"></a>列出某个端口运行的进程 <code>lsof -i :[port_number]</code></h2><pre><code>&gt;lsof -i :3306
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">mysqld  20150     sense   14u  IPv6 0x6bbd735884c780f7      0t0  TCP *:mysql (LISTEN)</div></pre></td></tr></table></figure>
+<h2 id="只列出ip4-ip6打开的文件-lsof-i-4-OR-lsof-i-6"><a href="#只列出ip4-ip6打开的文件-lsof-i-4-OR-lsof-i-6" class="headerlink" title="只列出ip4/ip6打开的文件 lsof -i 4 OR lsof -i 6"></a>只列出ip4/ip6打开的文件 <code>lsof -i 4</code> OR <code>lsof -i 6</code></h2><pre><code>&gt;lsof -i 4
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">UserEvent 141       sense  6u   IPv4 0x6bbd735883aeec5f      0t0  UDP *:*</div><div class="line">SystemUIS 171       sense  5u   IPv4 0x6bbd735883aee88f      0t0  UDP *:*</div><div class="line">sharingd  180       sense  18u  IPv4 0x6bbd7358876c57cf      0t0  UDP *:*</div></pre></td></tr></table></figure>
+<pre><code>&gt;lsof -i 6
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">mysqld  20150     sense   14u  IPv6 0x6bbd735884c780f7      0t0  TCP *:mysql (LISTEN)</div></pre></td></tr></table></figure>
+<h2 id="列出端口在1-3306-之间的所有进程-lsof-i-1-3306"><a href="#列出端口在1-3306-之间的所有进程-lsof-i-1-3306" class="headerlink" title="列出端口在1-3306 之间的所有进程 lsof -i :1-3306"></a>列出端口在1-3306 之间的所有进程 <code>lsof -i :1-3306</code></h2><pre><code>&gt; lsof -i :1-3306
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">mysqld  20150     sense   14u  IPv6 0x6bbd735884c780f7      0t0  TCP *:mysql (LISTEN)</div></pre></td></tr></table></figure>
+<h2 id="根据进程id列出所有打开的文件-lsof-p-PID"><a href="#根据进程id列出所有打开的文件-lsof-p-PID" class="headerlink" title="根据进程id列出所有打开的文件 lsof -p PID"></a>根据进程id列出所有打开的文件 <code>lsof -p PID</code></h2><pre><code>&gt;lsof -p 20150 #mysql pid
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">COMMAND   PID       USER   FD   TYPE             DEVICE  SIZE/OFF     NODE NAME</div><div class="line">mysqld  20150       sense  cwd    DIR                1,2       374   978880 /usr/local/var/mysql</div><div class="line">mysqld  20150       sense  txt    REG                1,2  11827628 12007666 /usr/local/Cellar/mysql/5.6.17_1/bin/mysqld</div><div class="line">mysqld  20150       sense  txt    REG                1,2    358016 11997624 /usr/local/Cellar/openssl/1.0.1g/lib/libssl.1.0.0.dylib</div><div class="line">mysqld  20150       sense  txt    REG                1,2   1569360 11997621 /usr/local/Cellar/openssl/1.0.1g/lib/libcrypto.1.0.0.dylib</div><div class="line">mysqld  20150       sense  txt    REG                1,2    154576     2530 /System/Library/CoreServices/Encodings/libSimplifiedChineseConverter.dylib</div><div class="line">mysqld  20150       sense  txt    REG                1,2    600832  4153010 /usr/lib/dyld</div><div class="line">mysqld  20150       sense  txt    REG                1,2 343645146 12741449 /private/var/db/dyld/dyld_shared_cache_x86_64</div></pre></td></tr></table></figure>
+<h2 id="列出某个用户的所有活动进程的pid-lsof-t-u-username"><a href="#列出某个用户的所有活动进程的pid-lsof-t-u-username" class="headerlink" title="列出某个用户的所有活动进程的pid lsof -t -u [username]"></a>列出某个用户的所有活动进程的pid <code>lsof -t -u [username]</code></h2><pre><code>&gt;lsof -t -u sense
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">58</div><div class="line">138</div><div class="line">141</div><div class="line">142</div><div class="line">145</div><div class="line">148</div><div class="line">154</div><div class="line">156</div><div class="line">160</div><div class="line">161</div><div class="line">162</div></pre></td></tr></table></figure>
+<p>这个命令和<code>killall</code>组合就可以杀死某个用户所有的活动进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">killall -9 `lsof -t -u sense`</div></pre></td></tr></table></figure>
+<h2 id="列出某个目录中被打开的文件-lsof-D-path-of-the-directory"><a href="#列出某个目录中被打开的文件-lsof-D-path-of-the-directory" class="headerlink" title="列出某个目录中被打开的文件 lsof +D [path_of_the_directory]"></a>列出某个目录中被打开的文件 <code>lsof +D [path_of_the_directory]</code></h2><pre><code>&gt;lsof +D ~/Developer
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">COMMAND     PID       USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME</div><div class="line">zsh       19582       sense  cwd    DIR    1,2     3536 13227011 /Users/sense/Developer/github/blog/_posts</div><div class="line">Atom\x20H 19663       sense  txt    REG    1,2   153560 13226977 /Users/sense/Developer/github/blog/.git/objects/pack/pack-d3a1d10546c07101507e49f33bb3d45c8cf18030.idx</div><div class="line">Atom\x20H 19663       sense  txt    REG    1,2  5322160 13225111 /Users/sense/Developer/github/blog/.git/objects/pack/pack-d3a1d10546c07101507e49f33bb3d45c8cf18030.pack</div><div class="line">Atom\x20H 19663       sense   27r   REG    1,2  5322160 13225111 /Users/sense/Developer/github/blog/.git/objects/pack/pack-d3a1d10546c07101507e49f33bb3d45c8cf18030.pack</div><div class="line">Atom\x20H 19663       sense   31r   REG    1,2     3969 13391542 /Users/sense/Developer/github/blog/_posts/2014-05-01-about-lsof.md</div><div class="line">Atom\x20H 19663       sense   33r   DIR    1,2     3536 13227011 /Users/sense/Developer/github/blog/_posts</div><div class="line">Atom\x20H 19686       sense   33r   DIR    1,2     3536 13227011 /Users/sense/Developer/github/blog/_posts</div><div class="line">lsof      20387       sense  cwd    DIR    1,2     3536 13227011 /Users/sense/Developer/github/blog/_posts</div><div class="line">lsof      20388       sense  cwd    DIR    1,2     3536 13227011 /Users/sense/Developer/github/blog/_posts</div></pre></td></tr></table></figure>
+<h2 id="根据进程名列出打开的文件-lsof-c-process-name"><a href="#根据进程名列出打开的文件-lsof-c-process-name" class="headerlink" title="根据进程名列出打开的文件 lsof -c [process_name]"></a>根据进程名列出打开的文件 <code>lsof -c [process_name]</code></h2><pre><code>&gt;lsof -c Atom
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">COMMAND     PID       USER   FD     TYPE             DEVICE   SIZE/OFF     NODE NAME</div><div class="line">Atom      19651       sense  cwd      DIR                1,2       1088        2 /</div><div class="line">Atom      19651       sense  txt      REG                1,2      18400 13308696 /Applications/Atom.app/Contents/MacOS/Atom</div><div class="line">Atom      19651       sense  txt      REG                1,2    5363624 13308549 /Applications/Atom.app/Contents/Frameworks/Atom Framework.framework/Versions/A/Atom Framework</div><div class="line">Atom      19651       sense  txt      REG                1,2     240916 13308692 /Applications/Atom.app/Contents/Frameworks/Squirrel.framework/Versions/A/Squirrel</div><div class="line">Atom      19651       sense  txt      REG                1,2    1125924 13308670 /Applications/Atom.app/Contents/Frameworks/ReactiveCocoa.framework/Versions/A/ReactiveCocoa</div><div class="line">Atom      19651       sense  txt      REG                1,2     204352 13308607 /Applications/Atom.app/Contents/Frameworks/Mantle.framework/Versions/A/Mantle</div><div class="line">Atom      19651       sense  txt      REG                1,2   75500632 13308552 /Applications/Atom.app/Contents/Frameworks/Atom Framework.framework/Versions/A/Libraries/libchromiumcontent.dylib</div></pre></td></tr></table></figure>
+<h2 id="列出所有网络连接-lsof-i"><a href="#列出所有网络连接-lsof-i" class="headerlink" title="列出所有网络连接 lsof -i"></a>列出所有网络连接 <code>lsof -i</code></h2><pre><code>&gt;lsof -i
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">COMMAND     PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">UserEvent   141       sense    6u  IPv4 0x6bbd735883aeec5f      0t0  UDP *:*</div><div class="line">SystemUIS   171       sense    5u  IPv4 0x6bbd735883aee88f      0t0  UDP *:*</div><div class="line">sharingd    180       sense   18u  IPv4 0x6bbd7358876c57cf      0t0  UDP *:*</div><div class="line">mysqld    20150       sense   14u  IPv6 0x6bbd735884c780f7      0t0  TCP *:mysql (LISTEN)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/lsof/" rel="tag"># lsof</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/[object Object]/2014-05-01-sched-setaffinity.html" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/[object Object]/2014-01-01-ssdb-startup.html" rel="prev" title="ssdb startup">
+                ssdb startup <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lie" />
+          <p class="site-author-name" itemprop="name">lie</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#lsof-帮助文档-lsof-help"><span class="nav-number">1.</span> <span class="nav-text">lsof 帮助文档 lsof --help</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出所有打开的文件和网络lsof"><span class="nav-number">2.</span> <span class="nav-text">列出所有打开的文件和网络lsof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出某个用户打开的文件-lsof-u-username"><span class="nav-number">3.</span> <span class="nav-text">列出某个用户打开的文件 lsof -u [username]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出某个端口运行的进程-lsof-i-port-number"><span class="nav-number">4.</span> <span class="nav-text">列出某个端口运行的进程 lsof -i :[port_number]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#只列出ip4-ip6打开的文件-lsof-i-4-OR-lsof-i-6"><span class="nav-number">5.</span> <span class="nav-text">只列出ip4/ip6打开的文件 lsof -i 4 OR lsof -i 6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出端口在1-3306-之间的所有进程-lsof-i-1-3306"><span class="nav-number">6.</span> <span class="nav-text">列出端口在1-3306 之间的所有进程 lsof -i :1-3306</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据进程id列出所有打开的文件-lsof-p-PID"><span class="nav-number">7.</span> <span class="nav-text">根据进程id列出所有打开的文件 lsof -p PID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出某个用户的所有活动进程的pid-lsof-t-u-username"><span class="nav-number">8.</span> <span class="nav-text">列出某个用户的所有活动进程的pid lsof -t -u [username]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出某个目录中被打开的文件-lsof-D-path-of-the-directory"><span class="nav-number">9.</span> <span class="nav-text">列出某个目录中被打开的文件 lsof +D [path_of_the_directory]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据进程名列出打开的文件-lsof-c-process-name"><span class="nav-number">10.</span> <span class="nav-text">根据进程名列出打开的文件 lsof -c [process_name]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出所有网络连接-lsof-i"><span class="nav-number">11.</span> <span class="nav-text">列出所有网络连接 lsof -i</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lie</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://timer.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://i.joymvp.com/[object Object]/2014-05-01-about-lsof.html';
+          this.page.identifier = '/[object Object]/2014-05-01-about-lsof.html';
+          this.page.title = 'lsof一些用法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timer.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

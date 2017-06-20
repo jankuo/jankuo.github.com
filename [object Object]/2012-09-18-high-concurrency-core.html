@@ -1,0 +1,791 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="高并发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="高并发的核心原则其实就一句话 把所有的用户访问 尽量都往前推 如果把用户比作来犯的“敌人”，我们一定要把他们挡在800里之外的老巢（浏览器）中，不能让他们一下子打到我们的指挥部（数据库或者其他数据存储设备） 比如：  能缓存在用户本地的就不要让他去访问CDN 能缓存在CDN服务器的，就不要让CDN去访问 静态服务器 能访问静态服务器的，就不要去访问动态服务器 能访问缓存的，就不要去访问数据库  高">
+<meta name="keywords" content="高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发的核心原则">
+<meta property="og:url" content="http://i.joymvp.com/[object Object]/2012-09-18-high-concurrency-core.html">
+<meta property="og:site_name" content="lie的个人博客">
+<meta property="og:description" content="高并发的核心原则其实就一句话 把所有的用户访问 尽量都往前推 如果把用户比作来犯的“敌人”，我们一定要把他们挡在800里之外的老巢（浏览器）中，不能让他们一下子打到我们的指挥部（数据库或者其他数据存储设备） 比如：  能缓存在用户本地的就不要让他去访问CDN 能缓存在CDN服务器的，就不要让CDN去访问 静态服务器 能访问静态服务器的，就不要去访问动态服务器 能访问缓存的，就不要去访问数据库  高">
+<meta property="og:updated_time" content="2017-06-20T04:16:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高并发的核心原则">
+<meta name="twitter:description" content="高并发的核心原则其实就一句话 把所有的用户访问 尽量都往前推 如果把用户比作来犯的“敌人”，我们一定要把他们挡在800里之外的老巢（浏览器）中，不能让他们一下子打到我们的指挥部（数据库或者其他数据存储设备） 比如：  能缓存在用户本地的就不要让他去访问CDN 能缓存在CDN服务器的，就不要让CDN去访问 静态服务器 能访问静态服务器的，就不要去访问动态服务器 能访问缓存的，就不要去访问数据库  高">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://i.joymvp.com/[object Object]/2012-09-18-high-concurrency-core.html"/>
+
+
+
+
+
+  <title>高并发的核心原则 | lie的个人博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lie的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">匆匆行走，总要留下什么</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2012-09-18-high-concurrency-core.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lie的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">高并发的核心原则</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/[object Object]/2012-09-18-high-concurrency-core.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/[object Object]/2012-09-18-high-concurrency-core.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="高并发的核心原则"><a href="#高并发的核心原则" class="headerlink" title="高并发的核心原则"></a>高并发的核心原则</h2><p>其实就一句话 <code>把所有的用户访问 尽量都往前推</code></p>
+<p>如果把用户比作来犯的“敌人”，我们一定要把他们挡在800里之外的老巢（浏览器）中，不能让他们一下子打到我们的指挥部（数据库或者其他数据存储设备）</p>
+<p>比如：</p>
+<ol>
+<li>能缓存在用户本地的就不要让他去访问CDN</li>
+<li>能缓存在CDN服务器的，就不要让CDN去访问 <code>静态服务器</code></li>
+<li>能访问静态服务器的，就不要去访问动态服务器</li>
+<li>能访问缓存的，就不要去访问数据库</li>
+</ol>
+<h2 id="高并发网站访问的几个层次"><a href="#高并发网站访问的几个层次" class="headerlink" title="高并发网站访问的几个层次"></a>高并发网站访问的几个层次</h2><ol>
+<li><p>第一层：在用户浏览器端，使用apache的mod_deflate压缩传输，在比如：expires功能<br>deflate和expires功能利用的好，就会大大提升用户体验效果及减少网站带宽，<br>减少后端服务器的压力。当然，方法还有很多，这里不一一细谈了。这里的apache,还可以是Nginx,lighttpd等web服务软件。</p>
+</li>
+<li><p>第二层：页面元素，如图片/js/css等或静态数据html，这个层面是网页缓存层,<br>比如CDN（效果比公司自己部署squid要好，他们专业，价格低廉，比如快网/CC等<br>（价格80元/M/月不到）而且覆盖的城市更多），<br>自己架设squid是次选，除非是为前端CDN提供服务，以减轻后端存储压力，而不是<br>直接提供服务给最终用户。</p>
+</li>
+<li><p>第三层：静态服务器层一般为图片服务器，视频服务器，静态HTML服务器。<br>这一层是前面缓存层和后面动态服务器层的连接纽带，大公司发布新闻<br>等直接由发布人员分发到各cache节点（sina,163等都是如此），这和一<br>般公司的业务可能不一样。所以，没法直接的参考模仿，比如人人的SNS。<br>我们可以使用Q队列方式实现异步的分发访问，同时把动态发布数据（数<br>据库中的数据）静态化存储。即放到本层访问，或通过其他办法发布到各<br>cache节点，而不是直接让所有用户去访问数据库，不知道大家发现了没有，<br>qq.com门户的新闻评论多的有几十万条，如果所有用户一看新闻就加载所有<br>评论，那数据库不挂才怪。他们的评论需要审核（美其名约，实际是异步的<br>方式，而且，评论可能都是静态化的或类似的静态化或内存cache的方式），<br>这点可能就是需要51cto.com这样站点学习的，你们打开51CTO的一篇博文，<br>就会发现下面的评论一直都显示出来了，也可能是分页的。不过，应该都是<br>直接读库的，一旦访问量大，数据库压力大是必然。<br>这里不是说51cto网站不好，所有的网站都是从类似的程序架构开始发展起来的。</p>
+</li>
+<li><p>第四层：动态服务器层：php,java等，只有到这个层才可能会访问数据库。<br>经过前三层的访问过滤能到这层访问就很少了，一般都是新发布的内容和新发布内容第一次浏览 如；博文<br>（包括微博等），BBS帖子。</p>
+</li>
+<li><p>第五层：数据库cache层，比如：memcache,memcachedb,tc等等。</p>
+</li>
+<li><p>第六层：数据库层，一般的不是超大站点都会用mysql主从结构，如：163,sina,kaixin都是如此，做数据库读写分离，<br>一主（或双主）多从的方式，访问大了，就拆业务好了，比如：<br>再给企业做兼职时，发现类似的51cto的一个站点，把www服务,blog服务，bbs<br>服务都放一个服务器上，然后做主从。这种情况，当业务访问量大了，可以简单的<br>把www,blog,bbs服务分别各用一组服务器拆分开，这种方式运维都会的,没啥难度。<br>当然访问量在大了，可以继续针对某一个服务拆分如：www库拆分，也可以对库里的表拆分。<br>需要高可用可以通过drbd等工具做成高可用方式。对于写业务大的，可以做MYSQL REP主主的方式，<br>对于ORACLE来说，来几组oracle dg就够了，玩RAC要需要更多的软、硬件价格及维护成本的，另外，一般的中高级DBA，玩好RAC也不是很容易的。<br>如果到这里访问量还很大，那就恭喜了，起码是几千万以上的PV了<br>当然，某些超大公司还可能用写MASTER及所谓的3个以上master环状同步,每个master在带几个SLAVE，甚至用nosql数据库。<br>这些都是浮云，我们搞服务，不是看人家喊什么你就用什么，好多人网上发布的帖子只是测试的。或者不适合你的。<br>网上提供的文档等，你能测试搞出来就不容易了，出问题能快速解决，这个就没法一下子学会了。而且，好多软件本来就没有大公司用过，即没有大经过大规模的高并发测试，一旦用于重要业务，出问题，后果是很严重的，这就是开源的一个弊端，没有人支持。</p>
+</li>
+<li><p>第七层：其实大多数公司用NFS就够了。我所维护或经历过的上千万PV的用NFS及普通服务器做存储的还有大把，<br>多一些磁盘，如SAS 15K*6的，或者用dell6850，搞几组 NFS存储，中小网站足够了</p>
+</li>
+</ol>
+<p>文章来源：<a href="http://bitsucker.com/index.php/archives/68" target="_blank" rel="external">江山如画</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/高并发/" rel="tag"># 高并发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/[object Object]/2012-10-21-last-week-error.html" rel="next" title="上周统计需求犯下的错误">
+                <i class="fa fa-chevron-left"></i> 上周统计需求犯下的错误
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/[object Object]/2012-09-16-homedream.html" rel="prev" title="乡愁">
+                乡愁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lie" />
+          <p class="site-author-name" itemprop="name">lie</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#高并发的核心原则"><span class="nav-number">1.</span> <span class="nav-text">高并发的核心原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高并发网站访问的几个层次"><span class="nav-number">2.</span> <span class="nav-text">高并发网站访问的几个层次</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lie</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://timer.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://i.joymvp.com/[object Object]/2012-09-18-high-concurrency-core.html';
+          this.page.identifier = '/[object Object]/2012-09-18-high-concurrency-core.html';
+          this.page.title = '高并发的核心原则';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timer.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
