@@ -783,6 +783,138 @@ $ kill `cat ./var/ssdb.pid`
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2014-05-14-python-daemon.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lie的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/[object Object]/2014-05-14-python-daemon.html" itemprop="url">未命名</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/[object Object]/2014-05-14-python-daemon.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/[object Object]/2014-05-14-python-daemon.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<p>layout: post<br>title: 用python实现守护进程<br>categories:</p>
+<pre><code>- 技术
+</code></pre><p>tags:</p>
+<pre><code>- 守护进程
+- python
+- daemon
+</code></pre><hr>
+<p>什么都懒得说，直接上代码<br>原文在：<a href="http://blog.csdn.net/dysj4099/article/details/18219411" target="_blank" rel="external">Linux守护进程设计规范及python实现</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div></pre></td><td class="code"><pre><div class="line">#! /usr/bin/env python</div><div class="line"></div><div class="line">import sys</div><div class="line">import os</div><div class="line">import time</div><div class="line">import atexit</div><div class="line"></div><div class="line">from signal import SIGTERM</div><div class="line"></div><div class="line"></div><div class="line">class Daemon(object):</div><div class="line"></div><div class="line">    &quot;&quot;&quot;</div><div class="line">    A generic daemon class.</div><div class="line"></div><div class="line">    Usage:subclass the Daemon class and override the run() method</div><div class="line">    &quot;&quot;&quot;</div><div class="line"></div><div class="line">    def __init__(self, pidfile, stdin=&apos;/dev/null&apos;, stdout=&apos;/dev/null&apos;, stderr=&apos;/dev/null&apos;):</div><div class="line">        self.stdin = stdin</div><div class="line">        self.stdout = stdout</div><div class="line">        self.stderr = stderr</div><div class="line">        self.pidfile = pidfile</div><div class="line"></div><div class="line">    def daemonize(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        do the UNIX double-fork magic, see Stevens&apos;s &quot;Advanced</div><div class="line">        Programming in the UNIX Environment&quot; for detaill (ISBN 0201563177)</div><div class="line">        http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        try:</div><div class="line">            pid = os.fork()</div><div class="line">            if pid &gt; 0:</div><div class="line">                # exit first parent</div><div class="line">                sys.exit(0)</div><div class="line">        except OSError, e:</div><div class="line">            sys.stderr.write(</div><div class="line">                &quot;fork #1 failed:&#123;1&#125; (&#123;2&#125;) \n&quot;.format(e.errno, e.strerror))</div><div class="line">            sys.exit(1)</div><div class="line"></div><div class="line">        # decouble from parent enviroment</div><div class="line">        os.chdir(&quot;/&quot;)</div><div class="line">        os.setsid()</div><div class="line">        os.umask(0)</div><div class="line"></div><div class="line">        # do the second fork</div><div class="line">        try:</div><div class="line">            pid = os.fork()</div><div class="line">            if pid &gt; 0:</div><div class="line">                # exit from second parent</div><div class="line">                sys.exit(0)</div><div class="line">        except OSError, e:</div><div class="line">            sys.stderr.write(</div><div class="line">                &quot;fork #2 failed:&#123;0&#125; (1)\n&quot;.format(e.errno, e.strerror))</div><div class="line"></div><div class="line">        # redirect standard file descriptors</div><div class="line">        sys.stdout.flush()</div><div class="line">        sys.stderr.flush()</div><div class="line">        si = file(self.stdin, &apos;r&apos;)</div><div class="line">        so = file(self.stdout, &apos;a+&apos;)</div><div class="line">        se = file(self.stderr, &apos;a+&apos;, 0)</div><div class="line"></div><div class="line">        os.dup2(si.fileno(), sys.stdin.fileno())</div><div class="line">        os.dup2(so.fileno(), sys.stdout.fileno())</div><div class="line">        os.dup2(se.fileno(), sys.stderr.fileno())</div><div class="line"></div><div class="line">        # write pidfile</div><div class="line">        atexit.register(self.delpid)</div><div class="line">        pid = str(os.getpid())</div><div class="line">        file(self.pidfile, &apos;w+&apos;).write(&quot;&#123;0&#125;\n&quot;.format(pid))</div><div class="line"></div><div class="line">    def delpid(self):</div><div class="line">        os.remove(self.pidfile)</div><div class="line"></div><div class="line">    def start(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        start the daemon</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        # Check for a pidfile to see if the daemon already runs</div><div class="line">        try:</div><div class="line">            pf = file(self.pidfile, &apos;r&apos;)</div><div class="line">            pid = int(pf.read().strip())</div><div class="line">            pf.close</div><div class="line">        except IOError:</div><div class="line">            pid = None</div><div class="line"></div><div class="line">        if pid:</div><div class="line">            message = &quot;pidfile &#123;0&#125; already exist. Daemon already running?\n&quot;</div><div class="line">            sys.stderr.write(message.format(self.pidfile))</div><div class="line">            sys.exit(1)</div><div class="line"></div><div class="line">        # start the daemon</div><div class="line">        self.daemonize()</div><div class="line">        self.run()</div><div class="line"></div><div class="line">    def stop(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        Stop the daemon</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        # Get the pid from the pidfile</div><div class="line">        try:</div><div class="line">            pf = file(self.pidfile, &apos;r&apos;)</div><div class="line">            pid = int(pf.read().strip())</div><div class="line">            pf.close()</div><div class="line">        except IOError:</div><div class="line">            pid = None</div><div class="line"></div><div class="line">        if not pid:</div><div class="line">            message = &quot;pidfile &#123;0&#125; does not exist. Deamon not running?\n&quot;</div><div class="line">            sys.stderr.write(message.format(self.pidfile))</div><div class="line">            return</div><div class="line"></div><div class="line">        # try to kill the Daemon</div><div class="line">        try:</div><div class="line">            while 1:</div><div class="line">                os.kill(pid, SIGTERM)</div><div class="line">                time.sleep(0.1)</div><div class="line">        except OSError, err:</div><div class="line">            err = str(err)</div><div class="line">            if err.find(&quot;No such process&quot;) &gt; 0:</div><div class="line">                if (os.path.exists(self.pidfile)):</div><div class="line">                    os.remove(self.pidfile)</div><div class="line">            else:</div><div class="line">                print str(err)</div><div class="line">                sys.exit(1)</div><div class="line"></div><div class="line">    def restart(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        Restart the daemon</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        self.stop()</div><div class="line">        self.start()</div><div class="line"></div><div class="line">    def run(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        You should override the method when you subclass Daemon. It will</div><div class="line">        be called after the daemonized by start() or restart()</div><div class="line">        &quot;&quot;&quot;</div><div class="line"></div><div class="line"></div><div class="line">class DaemonDemo(Daemon):</div><div class="line"></div><div class="line">    def run(self):</div><div class="line">        while True:</div><div class="line">            sys.stdout.write(&quot;help me!\n&quot;)</div><div class="line">            sys.stdout.flush()</div><div class="line">            time.sleep(1)</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    pid = &quot;/tmp/daemon-example.pid&quot;</div><div class="line">    stdout = &quot;/tmp/daemon-example.stdout&quot;</div><div class="line">    daemon = DaemonDemo(pidfile=pid, stdout=stdout)</div><div class="line">    if len(sys.argv) == 2:</div><div class="line">        if &apos;start&apos; == sys.argv[1]:</div><div class="line">            daemon.start()</div><div class="line">        elif &apos;stop&apos; == sys.argv[1]:</div><div class="line">            daemon.stop()</div><div class="line">        elif &apos;restart&apos; == sys.argv[1]:</div><div class="line">            daemon.restart()</div><div class="line">        else:</div><div class="line">            print &apos;Unknown command&apos;</div><div class="line">            sys.exit(2)</div><div class="line"></div><div class="line">        sys.exit(0)</div><div class="line">    else:</div><div class="line">        print &apos;usage:%s start|stop|restart &apos;.format(sys.argv[1])</div><div class="line">        sys.exit(2)</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2014-05-18-routing-traffic-localhost.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -879,138 +1011,6 @@ $ kill `cat ./var/ssdb.pid`
 <p>方便需要解析时,指向需要解析成ip的应用程序仍然会使用/etc/hosts 解析为127.0.0.1<br>比如ping</p>
 <p>比如当浏览器中访问<code>http://localhost</code> 因为基于<code>tcp/ip</code>协议，就需要查<code>host</code>表</p>
 <p>而我们使用<code>mysql</code>时指定默认使用的是<code>locaLhost</code>，这个使用了 <code>/tmp/mysql.sock</code> <code>本地套接字文件AF_UNIX</code></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2014-05-14-python-daemon.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lie">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lie的个人博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/[object Object]/2014-05-14-python-daemon.html" itemprop="url">未命名</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
-                2017-06-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/[object Object]/2014-05-14-python-daemon.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/[object Object]/2014-05-14-python-daemon.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<p>layout: post<br>title: 用python实现守护进程<br>categories:</p>
-<pre><code>- 技术
-</code></pre><p>tags:</p>
-<pre><code>- 守护进程
-- python
-- daemon
-</code></pre><hr>
-<p>什么都懒得说，直接上代码<br>原文在：<a href="http://blog.csdn.net/dysj4099/article/details/18219411" target="_blank" rel="external">Linux守护进程设计规范及python实现</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div></pre></td><td class="code"><pre><div class="line">#! /usr/bin/env python</div><div class="line"></div><div class="line">import sys</div><div class="line">import os</div><div class="line">import time</div><div class="line">import atexit</div><div class="line"></div><div class="line">from signal import SIGTERM</div><div class="line"></div><div class="line"></div><div class="line">class Daemon(object):</div><div class="line"></div><div class="line">    &quot;&quot;&quot;</div><div class="line">    A generic daemon class.</div><div class="line"></div><div class="line">    Usage:subclass the Daemon class and override the run() method</div><div class="line">    &quot;&quot;&quot;</div><div class="line"></div><div class="line">    def __init__(self, pidfile, stdin=&apos;/dev/null&apos;, stdout=&apos;/dev/null&apos;, stderr=&apos;/dev/null&apos;):</div><div class="line">        self.stdin = stdin</div><div class="line">        self.stdout = stdout</div><div class="line">        self.stderr = stderr</div><div class="line">        self.pidfile = pidfile</div><div class="line"></div><div class="line">    def daemonize(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        do the UNIX double-fork magic, see Stevens&apos;s &quot;Advanced</div><div class="line">        Programming in the UNIX Environment&quot; for detaill (ISBN 0201563177)</div><div class="line">        http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        try:</div><div class="line">            pid = os.fork()</div><div class="line">            if pid &gt; 0:</div><div class="line">                # exit first parent</div><div class="line">                sys.exit(0)</div><div class="line">        except OSError, e:</div><div class="line">            sys.stderr.write(</div><div class="line">                &quot;fork #1 failed:&#123;1&#125; (&#123;2&#125;) \n&quot;.format(e.errno, e.strerror))</div><div class="line">            sys.exit(1)</div><div class="line"></div><div class="line">        # decouble from parent enviroment</div><div class="line">        os.chdir(&quot;/&quot;)</div><div class="line">        os.setsid()</div><div class="line">        os.umask(0)</div><div class="line"></div><div class="line">        # do the second fork</div><div class="line">        try:</div><div class="line">            pid = os.fork()</div><div class="line">            if pid &gt; 0:</div><div class="line">                # exit from second parent</div><div class="line">                sys.exit(0)</div><div class="line">        except OSError, e:</div><div class="line">            sys.stderr.write(</div><div class="line">                &quot;fork #2 failed:&#123;0&#125; (1)\n&quot;.format(e.errno, e.strerror))</div><div class="line"></div><div class="line">        # redirect standard file descriptors</div><div class="line">        sys.stdout.flush()</div><div class="line">        sys.stderr.flush()</div><div class="line">        si = file(self.stdin, &apos;r&apos;)</div><div class="line">        so = file(self.stdout, &apos;a+&apos;)</div><div class="line">        se = file(self.stderr, &apos;a+&apos;, 0)</div><div class="line"></div><div class="line">        os.dup2(si.fileno(), sys.stdin.fileno())</div><div class="line">        os.dup2(so.fileno(), sys.stdout.fileno())</div><div class="line">        os.dup2(se.fileno(), sys.stderr.fileno())</div><div class="line"></div><div class="line">        # write pidfile</div><div class="line">        atexit.register(self.delpid)</div><div class="line">        pid = str(os.getpid())</div><div class="line">        file(self.pidfile, &apos;w+&apos;).write(&quot;&#123;0&#125;\n&quot;.format(pid))</div><div class="line"></div><div class="line">    def delpid(self):</div><div class="line">        os.remove(self.pidfile)</div><div class="line"></div><div class="line">    def start(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        start the daemon</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        # Check for a pidfile to see if the daemon already runs</div><div class="line">        try:</div><div class="line">            pf = file(self.pidfile, &apos;r&apos;)</div><div class="line">            pid = int(pf.read().strip())</div><div class="line">            pf.close</div><div class="line">        except IOError:</div><div class="line">            pid = None</div><div class="line"></div><div class="line">        if pid:</div><div class="line">            message = &quot;pidfile &#123;0&#125; already exist. Daemon already running?\n&quot;</div><div class="line">            sys.stderr.write(message.format(self.pidfile))</div><div class="line">            sys.exit(1)</div><div class="line"></div><div class="line">        # start the daemon</div><div class="line">        self.daemonize()</div><div class="line">        self.run()</div><div class="line"></div><div class="line">    def stop(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        Stop the daemon</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        # Get the pid from the pidfile</div><div class="line">        try:</div><div class="line">            pf = file(self.pidfile, &apos;r&apos;)</div><div class="line">            pid = int(pf.read().strip())</div><div class="line">            pf.close()</div><div class="line">        except IOError:</div><div class="line">            pid = None</div><div class="line"></div><div class="line">        if not pid:</div><div class="line">            message = &quot;pidfile &#123;0&#125; does not exist. Deamon not running?\n&quot;</div><div class="line">            sys.stderr.write(message.format(self.pidfile))</div><div class="line">            return</div><div class="line"></div><div class="line">        # try to kill the Daemon</div><div class="line">        try:</div><div class="line">            while 1:</div><div class="line">                os.kill(pid, SIGTERM)</div><div class="line">                time.sleep(0.1)</div><div class="line">        except OSError, err:</div><div class="line">            err = str(err)</div><div class="line">            if err.find(&quot;No such process&quot;) &gt; 0:</div><div class="line">                if (os.path.exists(self.pidfile)):</div><div class="line">                    os.remove(self.pidfile)</div><div class="line">            else:</div><div class="line">                print str(err)</div><div class="line">                sys.exit(1)</div><div class="line"></div><div class="line">    def restart(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        Restart the daemon</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        self.stop()</div><div class="line">        self.start()</div><div class="line"></div><div class="line">    def run(self):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        You should override the method when you subclass Daemon. It will</div><div class="line">        be called after the daemonized by start() or restart()</div><div class="line">        &quot;&quot;&quot;</div><div class="line"></div><div class="line"></div><div class="line">class DaemonDemo(Daemon):</div><div class="line"></div><div class="line">    def run(self):</div><div class="line">        while True:</div><div class="line">            sys.stdout.write(&quot;help me!\n&quot;)</div><div class="line">            sys.stdout.flush()</div><div class="line">            time.sleep(1)</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    pid = &quot;/tmp/daemon-example.pid&quot;</div><div class="line">    stdout = &quot;/tmp/daemon-example.stdout&quot;</div><div class="line">    daemon = DaemonDemo(pidfile=pid, stdout=stdout)</div><div class="line">    if len(sys.argv) == 2:</div><div class="line">        if &apos;start&apos; == sys.argv[1]:</div><div class="line">            daemon.start()</div><div class="line">        elif &apos;stop&apos; == sys.argv[1]:</div><div class="line">            daemon.stop()</div><div class="line">        elif &apos;restart&apos; == sys.argv[1]:</div><div class="line">            daemon.restart()</div><div class="line">        else:</div><div class="line">            print &apos;Unknown command&apos;</div><div class="line">            sys.exit(2)</div><div class="line"></div><div class="line">        sys.exit(0)</div><div class="line">    else:</div><div class="line">        print &apos;usage:%s start|stop|restart &apos;.format(sys.argv[1])</div><div class="line">        sys.exit(2)</div></pre></td></tr></table></figure>
 
           
         
@@ -1567,7 +1567,7 @@ int main( void )
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2014-09-17-zhihu-edm.html">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2014-06-25-ssh-broken-pipe.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lie">
@@ -1586,7 +1586,7 @@ int main( void )
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/[object Object]/2014-09-17-zhihu-edm.html" itemprop="url">知乎EDM邮件随想</a></h2>
+                <a class="post-title-link" href="/[object Object]/2014-06-25-ssh-broken-pipe.html" itemprop="url">ssh耗时操作出现Write_failed_Broken_pipe</a></h2>
         
 
         <div class="post-meta">
@@ -1621,8 +1621,8 @@ int main( void )
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/运营/" itemprop="url" rel="index">
-                    <span itemprop="name">运营</span>
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
                   </a>
                 </span>
 
@@ -1639,9 +1639,9 @@ int main( void )
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/[object Object]/2014-09-17-zhihu-edm.html#comments" itemprop="discussionUrl">
+                <a href="/[object Object]/2014-06-25-ssh-broken-pipe.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/[object Object]/2014-09-17-zhihu-edm.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="/[object Object]/2014-06-25-ssh-broken-pipe.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1668,26 +1668,8 @@ int main( void )
       
         
           
-            <p>就在几个月前，我面试了一个产品经理，一个比较初级的产品经理，他简历上唯一让我感兴趣的就是edm优化经验. 那个时候问过他好多问题，其中有一个问题讨论了好久：<strong>怎么衡量edm的效果</strong>？ 答曰：<strong>给每一个可以点击的地方加上统计代码</strong>.</p>
-<p>今天，打开email，发现 <a href="http://www.zhihu.com" target="_blank" rel="external">知乎</a> 发了一封非常煽情的邮件给我,原文如下：</p>
-<p><img src="/assets/image/zhihuedm.jpg" alt="知乎edm"></p>
-<p>从运营角度看:</p>
-<ol>
-<li><p>这篇文字足够煽情，让我不想点都不行。  </p>
-</li>
-<li><p>这是绝笔信，虽然也称得上是退订信，但方法是不一样的，退订信的意思是如果你看不惯的话可以选择退订。 绝笔信的意思是如果你不立马点击，俺们以后绝交….试想，谁会无情呢？</p>
-</li>
-<li><p>全文唯一可以点击的地方是：继续写信给我…. 这个按钮带来的是什么呢？如果点击了这个按钮代表的是：一可能是：我已经有阅读你的来信，只是我懒得点击你给我的内容而已. 二：你之前的内容还是不错，我还是有可能等的。 为什么呢？因为如果点击了这个按钮，就代表知乎的周刊还是能正常发送到邮箱的。不然收不到这封信 </p>
-</li>
-<li><p>这封邮件的时间宽限是15天. 从某些方面说代表了这个人打开邮箱的频率…</p>
-</li>
-<li><p>按钮背后的点击逻辑其实就是统计：<code>http://tmail.zhihu.com/t?u=...hwbG9yZSNtb250a...1dG1fbWVkaXVtPWVtYWls&amp;i=205298632&amp;l=zhihu&amp;s=1&amp;c=aT0yMDUyOTg2MzImbD16aGlodS...</code> </p>
-</li>
-<li><p>点击后最终跳转的地址是： <a href="http://www.zhihu.com/explore#monthly-hot?utm_campaign=winback_201409&amp;utm_source=email&amp;utm_medium=email" target="_blank" rel="external">http://www.zhihu.com/explore#monthly-hot?utm_campaign=winback_201409&amp;utm_source=email&amp;utm_medium=email</a></p>
-</li>
-<li><p>最重要的一点：邮件标题叫做：xxx 我可能要离开你了 </p>
-</li>
-</ol>
+            <p>解决方案原文： <a href="http://unix.stackexchange.com/questions/2010/what-does-the-broken-pipe-message-mean-in-an-ssh-session" target="_blank" rel="external">http://unix.stackexchange.com/questions/2010/what-does-the-broken-pipe-message-mean-in-an-ssh-session</a></p>
+<p>先挖一个坑，以后再翻译</p>
 
           
         

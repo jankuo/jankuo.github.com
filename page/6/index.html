@@ -276,335 +276,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2012-12-15-hunred-chickens.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lie">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lie的个人博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/[object Object]/2012-12-15-hunred-chickens.html" itemprop="url">百钱买百鸡 - 一窥算法优化历程</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
-                2017-06-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/[object Object]/2012-12-15-hunred-chickens.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/[object Object]/2012-12-15-hunred-chickens.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##百鸡问题</p>
-<p>##文言文</p>
-<p>今有鸡翁一，值钱伍；鸡母一，值钱三；鸡鶵三，值钱一。凡百钱买鸡百只，问鸡翁、母、鶵各几何？答曰：鸡翁四，值钱二十；鸡母十八，值钱五十四；鸡鶵七十八，值钱二十六。又答：鸡翁八，值钱四十；鸡 母十一，值钱三十三，鸡鶵八十一，值钱二十七。又答：鸡翁十二，值钱六十；鸡母四、值钱十二；鸡鶵八十 四，值钱二十八。”</p>
-<h2 id="现代语"><a href="#现代语" class="headerlink" title="现代语"></a>现代语</h2><p>公鸡每只值5 文钱，母鸡每只值3 文钱，而3 只小鸡值1 文钱。现在用100 文钱买100 只鸡，问：这100 只鸡中，公鸡、母鸡和小鸡各有多少只？</p>
-<h2 id="答案是"><a href="#答案是" class="headerlink" title="答案是"></a>答案是</h2><pre><code>&lt;公鸡0只，母鸡25只,小鸡75只&gt;
-&lt;公鸡4只，母鸡18只,小鸡78只&gt;
-&lt;公鸡8只，母鸡11只,小鸡81只&gt;
-&lt;公鸡12只，母鸡4只,小鸡84只&gt;
-</code></pre><h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>本问题记载于中国古代约5—6世纪成书的 <strong>《张邱建算经》</strong> 中，是原书卷下第 <strong>38</strong> 题，也是全书的最后一题,该问题引出 <strong>三元不定方程组</strong>，其重要之处在于开创“<strong>一问多答</strong>”的先例，这是过去中国古算书中所没有的:</p>
-<ol>
-<li>中国古算书的著名校勘者<strong>甄鸾</strong>和<strong>李淳风</strong>注释该书时都没给出解法 </li>
-<li>约6世纪的算学家<strong>谢察微</strong>记述过一种不甚正确的解法 </li>
-<li>1815年<strong>骆腾风</strong>使用大衍求一术解决了百鸡问题。</li>
-<li>1874年<strong>丁取忠创</strong>用一个简易的算术解法 x</li>
-</ol>
-<p>##代码[golang] </p>
-<hr>
-<p>百钱买百鸡，那么公鸡，母鸡，小鸡，最多100只，最少0只，于是乎:</p>
-<pre><code>package main
-
-import &quot;fmt&quot;
-
-func main() {
-    var x,y,z int
-
-    count := 0;
-    fmt.Printf(&quot;第 1 次穷解法:\n&quot;)
-    for x = 0; x &lt;= 100; x++ {
-        for y = 0; y&lt;=100; y++ {
-            for z = 0;z &lt;100; z++ {
-                if (z%3 == 0) &amp;&amp; (x + y + z == 100) &amp;&amp; (5*x+3*y+z/3 == 100 )  {
-                    fmt.Printf(&quot;&lt;公鸡%d只，母鸡%d只,小鸡%d只&gt;\n&quot;,x,y,z)
-                }
-                count++
-            }
-        }
-    }
-    fmt.Printf(&quot;\n枚举了:%d次\n\n&quot;,count)
-}
-</code></pre><p>   运行结果是：</p>
-<pre><code>第 1 次穷解法:
-&lt;公鸡0只，母鸡25只,小鸡75只&gt;
-&lt;公鸡4只，母鸡18只,小鸡78只&gt;
-&lt;公鸡8只，母鸡11只,小鸡81只&gt;
-&lt;公鸡12只，母鸡4只,小鸡84只&gt;
-
-枚举了:1020100次
-</code></pre><p>虽然说耗时好久好久，不过，总算有了结果不是。</p>
-<hr>
-<p>细想起来，小鸡的是一文三只，小鸡数目一定要是 3 的倍数才行：</p>
-<pre><code>fmt.Printf(&quot;第 2 次穷解法:\n&quot;)
-for x = 0; x &lt;= 100; x++ {
-    for y = 0; y&lt;=100; y++ {
-        for z = 0;z &lt;100; z+= 3 {
-            if (x + y + z == 100) &amp;&amp; (5*x+3*y+z/3 == 100 )  {
-                fmt.Printf(&quot;&lt;公鸡%d只，母鸡%d只,小鸡%d只&gt;\n&quot;,x,y,z)
-            }
-            count++
-        }
-    }
-} 
-</code></pre><p>运行结果是：</p>
-<pre><code>第 2 次穷解法 枚举了:346834次
-</code></pre><p>结果正确，而且时间减少了 2/3 </p>
-<hr>
-<p>如果只买公鸡的话，只能买20只：</p>
-<pre><code>fmt.Printf(&quot;第 3 次穷解法:\n&quot;)
-for x = 0; x &lt;= 20; x++ {
-    for y = 0; y&lt;=100; y++ {
-        for z = 0;z &lt;100; z+= 3 {
-            if (z%3 == 0) &amp;&amp; (x + y + z == 100) &amp;&amp; (5*x+3*y+z/3 == 100 )  {
-                fmt.Printf(&quot;&lt;公鸡%d只，母鸡%d只,小鸡%d只&gt;\n&quot;,x,y,z)
-            }
-            count++
-        }
-    }
-} 
-</code></pre><p>结果是：</p>
-<pre><code>第 3 次穷解法 枚举了:72114次
-</code></pre><p>相比上一次，时间又减少了到了 4/5 </p>
-<hr>
-<p>好像不用去枚举小鸡 ，因为总共100只鸡，小鸡完全可以由 100-x-y 得出：</p>
-<pre><code>fmt.Printf(&quot;第 4 次穷解法:\n&quot;)
-for x = 0; x &lt;= 20; x++ {
-    for y = 0; y&lt;=100; y++ {
-        count++;
-    }
-}
-fmt.Printf(&quot;\n枚举了:%d次\n\n&quot;,count)
-</code></pre><p>运行结果</p>
-<pre><code>第 4 次穷解法枚举了:2121次
-</code></pre><hr>
-<p>   公鸡和母鸡总共不能超过100只，那么母鸡的最大值就是 100-x：</p>
-<pre><code>   fmt.Printf(&quot;第 5 次,我们发母鸡加公鸡不可能大于100:\n&quot;)
-for x = 0; x &lt;= 100; x++ {
-    for y=0; y &lt;= 100-x ; y++ {
-        count++
-    }
-}
-</code></pre><p>运行结果</p>
-<pre><code>第 5 次,我们发母鸡加公鸡不可能大于100，于是又改进了下:
-枚举了:1911次
-</code></pre><hr>
-<p>   百钱买百鸡，那么就有:</p>
-<pre><code>x + y + z = 100
-5x + 3y + z/3 = 100
-</code></pre><p>  得到</p>
-<pre><code>7x + 4y = 100
-</code></pre><p>直觉告诉我们公鸡只能是 偶数，不然就不能 被 4 整除:</p>
-<pre><code>fmt.Printf(&quot;第 6 次公鸡只能是偶数:\n&quot;)
-for x = 0; x &lt;= 20; x+=2 {
-    for y=0; y&lt;=100 -x ; y++ {
-        count++
-    }
-}
-</code></pre><p>运行结果</p>
-<pre><code>第 6 次公鸡只能是偶数:
-枚举了:1001次
-</code></pre><hr>
-<p>由 <code>7x + 4y = 100</code> 得到 <code>y= (100-7x)/4</code> 推导出 </p>
-<pre><code>y = 25 - 7x/4 
-</code></pre><p>那么，公鸡一定要能被4整除：</p>
-<pre><code>fmt.Printf(&quot;第 7 次,公鸡数量一定要能被4整除:\n&quot;)
-for x = 0; x &lt;= 20; x+=4 {
-    for y=0; y&lt;=100 -x ; y++ {
-        count++
-    }
-}
-</code></pre><p>结果是:</p>
-<pre><code>第 7 次,公鸡数量一定要能被4整除:
-枚举了:546次
-</code></pre><hr>
-<p> 既然母鸡符合公式 <code>y = 25 - 7x/4</code> 那么我们就不用枚举母鸡了，计算就可以得到 <code>y = 25 - 7x/4  &amp;&amp;  y &gt;= 0</code> 于是:</p>
-<pre><code> fmt.Printf(&quot;第 8 次母鸡数必须符合 y = 25 - 7x/4 :\n&quot;)
-for x = 0; x &lt;= 20; x+=4 {
-    y = (100-7*x)/4;
-    if y &gt;=0 &amp;&amp; ((100-x-y)%3 ==0) &amp;&amp; (5*x+3*y+(100-x-y)/3  == 100)  {
-    }
-    count++
-}
-</code></pre><p>结果</p>
-<pre><code>第 8 次母鸡数必须符合 y = 25 - 7x/4 :
-枚举了:6次
-</code></pre><hr>
-<p> 既然我们都已经知道答案，那就一次性输出吧：</p>
-<pre><code>package main
-
-import &quot;fmt&quot;
-
-type Chicken struct {
-    X,Y,Z int
-}
-
-func (self *Chicken) String() string {
-     return fmt.Sprintf(&quot;&lt;公鸡:%-3d 只，母鸡:%-3d 只,小鸡:%-3d 只&gt;&quot;,self.X,self.Y,self.Z)
-}
-
-func main() {         
-
-    var chickens []*Chicken = []*Chicken{
-        &amp;Chicken{0,25,75},
-        &amp;Chicken{4,18,78},
-        &amp;Chicken{8,11,81},
-        &amp;Chicken{12,4,84},
-    }
-
-    fmt.Printf(&quot;第 9 次,既然知道答案，那就一次全部输出吧:\n&quot;)
-    for _, v := range chickens {
-        fmt.Println(v);
-    }         
-}
-</code></pre><p>结果是：</p>
-<pre><code>第 9 次,既然知道答案，那就一次全部输出吧:
-&lt;公鸡:0   只，母鸡:25  只,小鸡:75  只&gt;
-&lt;公鸡:4   只，母鸡:18  只,小鸡:78  只&gt;
-&lt;公鸡:8   只，母鸡:11  只,小鸡:81  只&gt;
-&lt;公鸡:12  只，母鸡:4   只,小鸡:84  只&gt;
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li><p>我们大学学习的过程是慢慢的从第一步到第九步的，这段时间，我们学到多少不重要，重要的是学会学习方法和解题方法(如果能用到实战中，那么最好不过了)</p>
-</li>
-<li><p>我们实际项目中一般都是遵行 <code>8 -&gt; 1</code> 的过程，也就是说不到万不得已，绝对不会用最原始的 <code>穷举法</code></p>
-</li>
-<li><p>第9次，往往是我们已经知道精确答案，而且知道答案永久不会改变才这么做的。</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2012-12-13-baidu-star-iter.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1003,7 +674,7 @@ int du_fib_iter( int a, int b, int count ) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2013-02-04-tears-of-olders.html">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2012-12-15-hunred-chickens.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lie">
@@ -1022,7 +693,7 @@ int du_fib_iter( int a, int b, int count ) {
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/[object Object]/2013-02-04-tears-of-olders.html" itemprop="url">留守的眼泪。。。</a></h2>
+                <a class="post-title-link" href="/[object Object]/2012-12-15-hunred-chickens.html" itemprop="url">百钱买百鸡 - 一窥算法优化历程</a></h2>
         
 
         <div class="post-meta">
@@ -1057,8 +728,8 @@ int du_fib_iter( int a, int b, int count ) {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/碎言碎语/" itemprop="url" rel="index">
-                    <span itemprop="name">碎言碎语</span>
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
                   </a>
                 </span>
 
@@ -1075,9 +746,9 @@ int du_fib_iter( int a, int b, int count ) {
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/[object Object]/2013-02-04-tears-of-olders.html#comments" itemprop="discussionUrl">
+                <a href="/[object Object]/2012-12-15-hunred-chickens.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/[object Object]/2013-02-04-tears-of-olders.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="/[object Object]/2012-12-15-hunred-chickens.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1104,23 +775,192 @@ int du_fib_iter( int a, int b, int count ) {
       
         
           
-            <pre><code>。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+            <p>##百鸡问题</p>
+<p>##文言文</p>
+<p>今有鸡翁一，值钱伍；鸡母一，值钱三；鸡鶵三，值钱一。凡百钱买鸡百只，问鸡翁、母、鶵各几何？答曰：鸡翁四，值钱二十；鸡母十八，值钱五十四；鸡鶵七十八，值钱二十六。又答：鸡翁八，值钱四十；鸡 母十一，值钱三十三，鸡鶵八十一，值钱二十七。又答：鸡翁十二，值钱六十；鸡母四、值钱十二；鸡鶵八十 四，值钱二十八。”</p>
+<h2 id="现代语"><a href="#现代语" class="headerlink" title="现代语"></a>现代语</h2><p>公鸡每只值5 文钱，母鸡每只值3 文钱，而3 只小鸡值1 文钱。现在用100 文钱买100 只鸡，问：这100 只鸡中，公鸡、母鸡和小鸡各有多少只？</p>
+<h2 id="答案是"><a href="#答案是" class="headerlink" title="答案是"></a>答案是</h2><pre><code>&lt;公鸡0只，母鸡25只,小鸡75只&gt;
+&lt;公鸡4只，母鸡18只,小鸡78只&gt;
+&lt;公鸡8只，母鸡11只,小鸡81只&gt;
+&lt;公鸡12只，母鸡4只,小鸡84只&gt;
+</code></pre><h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>本问题记载于中国古代约5—6世纪成书的 <strong>《张邱建算经》</strong> 中，是原书卷下第 <strong>38</strong> 题，也是全书的最后一题,该问题引出 <strong>三元不定方程组</strong>，其重要之处在于开创“<strong>一问多答</strong>”的先例，这是过去中国古算书中所没有的:</p>
+<ol>
+<li>中国古算书的著名校勘者<strong>甄鸾</strong>和<strong>李淳风</strong>注释该书时都没给出解法 </li>
+<li>约6世纪的算学家<strong>谢察微</strong>记述过一种不甚正确的解法 </li>
+<li>1815年<strong>骆腾风</strong>使用大衍求一术解决了百鸡问题。</li>
+<li>1874年<strong>丁取忠创</strong>用一个简易的算术解法 x</li>
+</ol>
+<p>##代码[golang] </p>
+<hr>
+<p>百钱买百鸡，那么公鸡，母鸡，小鸡，最多100只，最少0只，于是乎:</p>
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var x,y,z int
+
+    count := 0;
+    fmt.Printf(&quot;第 1 次穷解法:\n&quot;)
+    for x = 0; x &lt;= 100; x++ {
+        for y = 0; y&lt;=100; y++ {
+            for z = 0;z &lt;100; z++ {
+                if (z%3 == 0) &amp;&amp; (x + y + z == 100) &amp;&amp; (5*x+3*y+z/3 == 100 )  {
+                    fmt.Printf(&quot;&lt;公鸡%d只，母鸡%d只,小鸡%d只&gt;\n&quot;,x,y,z)
+                }
+                count++
+            }
+        }
+    }
+    fmt.Printf(&quot;\n枚举了:%d次\n\n&quot;,count)
+}
+</code></pre><p>   运行结果是：</p>
+<pre><code>第 1 次穷解法:
+&lt;公鸡0只，母鸡25只,小鸡75只&gt;
+&lt;公鸡4只，母鸡18只,小鸡78只&gt;
+&lt;公鸡8只，母鸡11只,小鸡81只&gt;
+&lt;公鸡12只，母鸡4只,小鸡84只&gt;
+
+枚举了:1020100次
+</code></pre><p>虽然说耗时好久好久，不过，总算有了结果不是。</p>
+<hr>
+<p>细想起来，小鸡的是一文三只，小鸡数目一定要是 3 的倍数才行：</p>
+<pre><code>fmt.Printf(&quot;第 2 次穷解法:\n&quot;)
+for x = 0; x &lt;= 100; x++ {
+    for y = 0; y&lt;=100; y++ {
+        for z = 0;z &lt;100; z+= 3 {
+            if (x + y + z == 100) &amp;&amp; (5*x+3*y+z/3 == 100 )  {
+                fmt.Printf(&quot;&lt;公鸡%d只，母鸡%d只,小鸡%d只&gt;\n&quot;,x,y,z)
+            }
+            count++
+        }
+    }
+} 
+</code></pre><p>运行结果是：</p>
+<pre><code>第 2 次穷解法 枚举了:346834次
+</code></pre><p>结果正确，而且时间减少了 2/3 </p>
+<hr>
+<p>如果只买公鸡的话，只能买20只：</p>
+<pre><code>fmt.Printf(&quot;第 3 次穷解法:\n&quot;)
+for x = 0; x &lt;= 20; x++ {
+    for y = 0; y&lt;=100; y++ {
+        for z = 0;z &lt;100; z+= 3 {
+            if (z%3 == 0) &amp;&amp; (x + y + z == 100) &amp;&amp; (5*x+3*y+z/3 == 100 )  {
+                fmt.Printf(&quot;&lt;公鸡%d只，母鸡%d只,小鸡%d只&gt;\n&quot;,x,y,z)
+            }
+            count++
+        }
+    }
+} 
+</code></pre><p>结果是：</p>
+<pre><code>第 3 次穷解法 枚举了:72114次
+</code></pre><p>相比上一次，时间又减少了到了 4/5 </p>
+<hr>
+<p>好像不用去枚举小鸡 ，因为总共100只鸡，小鸡完全可以由 100-x-y 得出：</p>
+<pre><code>fmt.Printf(&quot;第 4 次穷解法:\n&quot;)
+for x = 0; x &lt;= 20; x++ {
+    for y = 0; y&lt;=100; y++ {
+        count++;
+    }
+}
+fmt.Printf(&quot;\n枚举了:%d次\n\n&quot;,count)
+</code></pre><p>运行结果</p>
+<pre><code>第 4 次穷解法枚举了:2121次
 </code></pre><hr>
-<pre><code>one tear perday
+<p>   公鸡和母鸡总共不能超过100只，那么母鸡的最大值就是 100-x：</p>
+<pre><code>   fmt.Printf(&quot;第 5 次,我们发母鸡加公鸡不可能大于100:\n&quot;)
+for x = 0; x &lt;= 100; x++ {
+    for y=0; y &lt;= 100-x ; y++ {
+        count++
+    }
+}
+</code></pre><p>运行结果</p>
+<pre><code>第 5 次,我们发母鸡加公鸡不可能大于100，于是又改进了下:
+枚举了:1911次
 </code></pre><hr>
-<pre><code>谨以此文铭刻2012年必然的遗憾 
-</code></pre>
+<p>   百钱买百鸡，那么就有:</p>
+<pre><code>x + y + z = 100
+5x + 3y + z/3 = 100
+</code></pre><p>  得到</p>
+<pre><code>7x + 4y = 100
+</code></pre><p>直觉告诉我们公鸡只能是 偶数，不然就不能 被 4 整除:</p>
+<pre><code>fmt.Printf(&quot;第 6 次公鸡只能是偶数:\n&quot;)
+for x = 0; x &lt;= 20; x+=2 {
+    for y=0; y&lt;=100 -x ; y++ {
+        count++
+    }
+}
+</code></pre><p>运行结果</p>
+<pre><code>第 6 次公鸡只能是偶数:
+枚举了:1001次
+</code></pre><hr>
+<p>由 <code>7x + 4y = 100</code> 得到 <code>y= (100-7x)/4</code> 推导出 </p>
+<pre><code>y = 25 - 7x/4 
+</code></pre><p>那么，公鸡一定要能被4整除：</p>
+<pre><code>fmt.Printf(&quot;第 7 次,公鸡数量一定要能被4整除:\n&quot;)
+for x = 0; x &lt;= 20; x+=4 {
+    for y=0; y&lt;=100 -x ; y++ {
+        count++
+    }
+}
+</code></pre><p>结果是:</p>
+<pre><code>第 7 次,公鸡数量一定要能被4整除:
+枚举了:546次
+</code></pre><hr>
+<p> 既然母鸡符合公式 <code>y = 25 - 7x/4</code> 那么我们就不用枚举母鸡了，计算就可以得到 <code>y = 25 - 7x/4  &amp;&amp;  y &gt;= 0</code> 于是:</p>
+<pre><code> fmt.Printf(&quot;第 8 次母鸡数必须符合 y = 25 - 7x/4 :\n&quot;)
+for x = 0; x &lt;= 20; x+=4 {
+    y = (100-7*x)/4;
+    if y &gt;=0 &amp;&amp; ((100-x-y)%3 ==0) &amp;&amp; (5*x+3*y+(100-x-y)/3  == 100)  {
+    }
+    count++
+}
+</code></pre><p>结果</p>
+<pre><code>第 8 次母鸡数必须符合 y = 25 - 7x/4 :
+枚举了:6次
+</code></pre><hr>
+<p> 既然我们都已经知道答案，那就一次性输出吧：</p>
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type Chicken struct {
+    X,Y,Z int
+}
+
+func (self *Chicken) String() string {
+     return fmt.Sprintf(&quot;&lt;公鸡:%-3d 只，母鸡:%-3d 只,小鸡:%-3d 只&gt;&quot;,self.X,self.Y,self.Z)
+}
+
+func main() {         
+
+    var chickens []*Chicken = []*Chicken{
+        &amp;Chicken{0,25,75},
+        &amp;Chicken{4,18,78},
+        &amp;Chicken{8,11,81},
+        &amp;Chicken{12,4,84},
+    }
+
+    fmt.Printf(&quot;第 9 次,既然知道答案，那就一次全部输出吧:\n&quot;)
+    for _, v := range chickens {
+        fmt.Println(v);
+    }         
+}
+</code></pre><p>结果是：</p>
+<pre><code>第 9 次,既然知道答案，那就一次全部输出吧:
+&lt;公鸡:0   只，母鸡:25  只,小鸡:75  只&gt;
+&lt;公鸡:4   只，母鸡:18  只,小鸡:78  只&gt;
+&lt;公鸡:8   只，母鸡:11  只,小鸡:81  只&gt;
+&lt;公鸡:12  只，母鸡:4   只,小鸡:84  只&gt;
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>我们大学学习的过程是慢慢的从第一步到第九步的，这段时间，我们学到多少不重要，重要的是学会学习方法和解题方法(如果能用到实战中，那么最好不过了)</p>
+</li>
+<li><p>我们实际项目中一般都是遵行 <code>8 -&gt; 1</code> 的过程，也就是说不到万不得已，绝对不会用最原始的 <code>穷举法</code></p>
+</li>
+<li><p>第9次，往往是我们已经知道精确答案，而且知道答案永久不会改变才这么做的。</p>
+</li>
+</ol>
+
           
         
       
@@ -1550,188 +1390,6 @@ int du_fib_iter( int a, int b, int count ) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2013-02-20-perfect-number.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lie">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lie的个人博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/[object Object]/2013-02-20-perfect-number.html" itemprop="url">完美因数C代码</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
-                2017-06-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/[object Object]/2013-02-20-perfect-number.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/[object Object]/2013-02-20-perfect-number.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##描述##</p>
-<p>何一个自然数的约数中都有1和它本身，我们把小于它本身的因数叫做这个自然数的真约数。如6的所有真约数是1、2、3，而且6=1＋2＋3。像这样，一个数所有真约数的和正好等于这个数，通常把这个数叫做完美数。 古希腊人非常重视完美数。毕达哥拉斯发现它之后，人们就开始了对完美数的研究。也许完美数太少了，一直到现在，数学家才发现了29个完美数，而且都是偶完美数。前5个完美数分别是：</p>
-<pre><code>6，28，496，8128，33550336
-</code></pre><p>##代码##</p>
-<pre><code>#include &lt;stdio.h&gt;
-
-int is_perfect ( int n );
-
-int main ( void )
-{
-    int i = 2;
-    for ( ; i &lt; 10000 ; i++ ) 
-    {
-        if ( is_perfect ( i ) )
-        {
-            printf( &quot;%d &quot;, i );
-        }
-    }
-    printf(&quot;\n&quot;);
-    return 0;
-}
-
-int is_perfect ( int n )
-{
-    int min = 2, max = n,sum = 1;
-    while ( min &lt;= max) {
-        max = n / min;
-        if ( (n % min ) == 0 ) {
-            sum += min;
-            sum += max;
-            if ( min == max ) {
-                break;
-            }
-        }
-        min++;
-    }
-    return sum == n;
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2013-01-29-abs-min-number.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1958,6 +1616,348 @@ void print_r ( int myints[], int len )
         std::cout &lt;&lt; myints[i] &lt;&lt; &quot;, &quot;;
     }
     std::cout &lt;&lt; &apos;]&apos;;
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2013-02-04-tears-of-olders.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lie的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/[object Object]/2013-02-04-tears-of-olders.html" itemprop="url">留守的眼泪。。。</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/碎言碎语/" itemprop="url" rel="index">
+                    <span itemprop="name">碎言碎语</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/[object Object]/2013-02-04-tears-of-olders.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/[object Object]/2013-02-04-tears-of-olders.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+</code></pre><hr>
+<pre><code>one tear perday
+</code></pre><hr>
+<pre><code>谨以此文铭刻2012年必然的遗憾 
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://i.joymvp.com/[object Object]/2013-02-20-perfect-number.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lie的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/[object Object]/2013-02-20-perfect-number.html" itemprop="url">完美因数C代码</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:16:35+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/[object Object]/2013-02-20-perfect-number.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/[object Object]/2013-02-20-perfect-number.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##描述##</p>
+<p>何一个自然数的约数中都有1和它本身，我们把小于它本身的因数叫做这个自然数的真约数。如6的所有真约数是1、2、3，而且6=1＋2＋3。像这样，一个数所有真约数的和正好等于这个数，通常把这个数叫做完美数。 古希腊人非常重视完美数。毕达哥拉斯发现它之后，人们就开始了对完美数的研究。也许完美数太少了，一直到现在，数学家才发现了29个完美数，而且都是偶完美数。前5个完美数分别是：</p>
+<pre><code>6，28，496，8128，33550336
+</code></pre><p>##代码##</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int is_perfect ( int n );
+
+int main ( void )
+{
+    int i = 2;
+    for ( ; i &lt; 10000 ; i++ ) 
+    {
+        if ( is_perfect ( i ) )
+        {
+            printf( &quot;%d &quot;, i );
+        }
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}
+
+int is_perfect ( int n )
+{
+    int min = 2, max = n,sum = 1;
+    while ( min &lt;= max) {
+        max = n / min;
+        if ( (n % min ) == 0 ) {
+            sum += min;
+            sum += max;
+            if ( min == max ) {
+                break;
+            }
+        }
+        min++;
+    }
+    return sum == n;
 }
 </code></pre>
           
